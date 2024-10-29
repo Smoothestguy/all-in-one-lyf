@@ -1,0 +1,56 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo" class="page">
+    <ActionBar title="All in One LYF" class="action-bar" />
+    
+    <ScrollView>
+        <StackLayout class="auth-container">
+            <Label text="All in One LYF" class="app-title" />
+            
+            <StackLayout class="form-container">
+                <TextField hint="Email" 
+                          text="{{ email }}" 
+                          class="input-field"
+                          keyboardType="email" 
+                          autocorrect="false" 
+                          autocapitalizationType="none" />
+                          
+                <TextField hint="Password" 
+                          text="{{ password }}" 
+                          secure="true"
+                          class="input-field" />
+
+                <TextField hint="Confirm Password" 
+                          text="{{ confirmPassword }}" 
+                          secure="true"
+                          class="input-field"
+                          visibility="{{ isSignUp ? 'visible' : 'collapsed' }}" />
+                          
+                <Label text="{{ errorMessage }}" 
+                       class="error-message"
+                       visibility="{{ errorMessage ? 'visible' : 'collapsed' }}" />
+                
+                <Button text="{{ isSignUp ? 'Sign Up' : 'Sign In' }}" 
+                        tap="{{ onSubmit }}" 
+                        class="btn-primary" 
+                        isEnabled="{{ !isLoading }}" />
+                        
+                <Label text="OR" class="divider" />
+                
+                <Button text="Continue with Google" 
+                        tap="{{ onGoogleSignIn }}" 
+                        class="btn-social btn-google" 
+                        isEnabled="{{ !isLoading }}" />
+                        
+                <Button text="Continue with Facebook" 
+                        tap="{{ onFacebookSignIn }}" 
+                        class="btn-social btn-facebook" 
+                        isEnabled="{{ !isLoading }}" />
+                        
+                <Label text="{{ isSignUp ? 'Already have an account? Sign In' : 'Need an account? Sign Up' }}" 
+                       tap="{{ toggleAuthMode }}"
+                       class="auth-toggle" />
+                       
+                <ActivityIndicator busy="{{ isLoading }}" class="activity-indicator" />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</Page>

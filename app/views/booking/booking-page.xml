@@ -1,0 +1,144 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar class="action-bar">
+        <NavigationButton tap="{{ onBack }}" />
+        <Label text="Book Service" class="action-bar-title" />
+    </ActionBar>
+
+    <GridLayout rows="auto, *" columns="*">
+        <GridLayout row="0" columns="*, *, *, *" class="steps-container">
+            <StackLayout col="0" class="{{ step >= 1 ? 'step-active' : 'step' }}">
+                <Label text="1" class="step-number" />
+                <Label text="Details" class="step-text" />
+            </StackLayout>
+            <StackLayout col="1" class="{{ step >= 2 ? 'step-active' : 'step' }}">
+                <Label text="2" class="step-number" />
+                <Label text="Schedule" class="step-text" />
+            </StackLayout>
+            <StackLayout col="2" class="{{ step >= 3 ? 'step-active' : 'step' }}">
+                <Label text="3" class="step-number" />
+                <Label text="Quote" class="step-text" />
+            </StackLayout>
+            <StackLayout col="3" class="{{ step >= 4 ? 'step-active' : 'step' }}">
+                <Label text="4" class="step-number" />
+                <Label text="Confirm" class="step-text" />
+            </StackLayout>
+        </GridLayout>
+
+        <ScrollView row="1">
+            <StackLayout class="form-container">
+                <!-- Step 1: Details -->
+                <StackLayout visibility="{{ step === 1 ? 'visible' : 'collapsed' }}">
+                    <Label text="Project Details" class="section-title" />
+                    
+                    <Label text="Description" class="field-label" />
+                    <TextView hint="Describe your project needs..." 
+                             text="{{ requirements }}"
+                             class="input-field description-field" />
+                    
+                    <Label text="Project Area (sq ft)" class="field-label" />
+                    <TextField text="{{ area }}" 
+                             keyboardType="number" 
+                             class="input-field" 
+                             hint="Enter area in square feet" />
+                    
+                    <Label text="Project Complexity" class="field-label" />
+                    <SegmentedBar selectedIndex="{{ complexityIndex }}" 
+                                 class="m-y-2">
+                        <SegmentedBar.items>
+                            <SegmentedBarItem title="Simple" />
+                            <SegmentedBarItem title="Moderate" />
+                            <SegmentedBarItem title="Complex" />
+                        </SegmentedBar.items>
+                    </SegmentedBar>
+
+                    <Label text="Urgency" class="field-label" />
+                    <SegmentedBar selectedIndex="{{ urgencyIndex }}" 
+                                 class="m-y-2">
+                        <SegmentedBar.items>
+                            <SegmentedBarItem title="Normal" />
+                            <SegmentedBarItem title="Urgent" />
+                        </SegmentedBar.items>
+                    </SegmentedBar>
+
+                    <Button text="Next" tap="{{ onNext }}" class="btn-primary" />
+                </StackLayout>
+
+                <!-- Step 2: Schedule -->
+                <StackLayout visibility="{{ step === 2 ? 'visible' : 'collapsed' }}">
+                    <Label text="Schedule Service" class="section-title" />
+                    
+                    <Label text="Select Date" class="field-label" />
+                    <DatePicker date="{{ selectedDate }}" class="input-field" />
+                    
+                    <Label text="Select Time" class="field-label" />
+                    <ListPicker items="{{ availableTimeSlots }}" 
+                               selectedIndex="{{ selectedTimeIndex }}" 
+                               class="input-field" />
+
+                    <GridLayout columns="auto, *" class="navigation-buttons">
+                        <Button col="0" text="Back" tap="{{ onPrevious }}" class="btn-secondary" />
+                        <Button col="1" text="Next" tap="{{ onNext }}" class="btn-primary" />
+                    </GridLayout>
+                </StackLayout>
+
+                <!-- Step 3: Quote -->
+                <StackLayout visibility="{{ step === 3 ? 'visible' : 'collapsed' }}">
+                    <Label text="Service Quote" class="section-title" />
+                    
+                    <StackLayout class="quote-card">
+                        <Repeater items="{{ quote.breakdown }}">
+                            <Repeater.itemTemplate>
+                                <GridLayout columns="*, auto" class="quote-item">
+                                    <Label col="0" text="{{ $value.label }}" class="quote-label" />
+                                    <Label col="1" text="{{ '$' + $value.amount }}" class="quote-amount" />
+                                </GridLayout>
+                            </Repeater.itemTemplate>
+                        </Repeater>
+                        
+                        <StackLayout class="quote-total">
+                            <Label text="{{ 'Total: $' + quote.total }}" class="total-amount" />
+                        </StackLayout>
+                    </StackLayout>
+
+                    <GridLayout columns="auto, *" class="navigation-buttons">
+                        <Button col="0" text="Back" tap="{{ onPrevious }}" class="btn-secondary" />
+                        <Button col="1" text="Next" tap="{{ onNext }}" class="btn-primary" />
+                    </GridLayout>
+                </StackLayout>
+
+                <!-- Step 4: Confirm -->
+                <StackLayout visibility="{{ step === 4 ? 'visible' : 'collapsed' }}">
+                    <Label text="Confirm Booking" class="section-title" />
+                    
+                    <StackLayout class="summary-card">
+                        <Label text="{{ service.name }}" class="summary-title" />
+                        <Label text="{{ 'Date: ' + formattedDate }}" class="summary-detail" />
+                        <Label text="{{ 'Time: ' + selectedTime }}" class="summary-detail" />
+                        <Label text="{{ 'Total: $' + quote.total }}" class="summary-total" />
+                    </StackLayout>
+
+                    <Label text="Contact Information" class="field-label" />
+                    <TextField hint="Full Name" 
+                             text="{{ customerName }}" 
+                             class="input-field" />
+                    <TextField hint="Phone Number" 
+                             text="{{ customerPhone }}" 
+                             keyboardType="phone" 
+                             class="input-field" />
+                    <TextField hint="Email Address" 
+                             text="{{ customerEmail }}" 
+                             keyboardType="email" 
+                             class="input-field" />
+                    <TextView hint="Additional Notes (Optional)" 
+                             text="{{ additionalNotes }}" 
+                             class="input-field notes-field" />
+
+                    <GridLayout columns="auto, *" class="navigation-buttons">
+                        <Button col="0" text="Back" tap="{{ onPrevious }}" class="btn-secondary" />
+                        <Button col="1" text="Confirm Booking" tap="{{ onSubmit }}" class="btn-primary" />
+                    </GridLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </GridLayout>
+</Page>

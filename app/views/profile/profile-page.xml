@@ -1,0 +1,72 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo" class="page">
+    <ActionBar class="action-bar">
+        <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="{{ onBack }}" />
+        <Label text="Profile" class="action-bar-title" />
+        <ActionBar.actionItems>
+            <ActionItem text="{{ isEditing ? 'Save' : 'Edit' }}" 
+                       tap="{{ isEditing ? 'onSaveProfile' : 'onStartEditing' }}" 
+                       ios.position="right" />
+        </ActionBar.actionItems>
+    </ActionBar>
+
+    <ScrollView>
+        <StackLayout class="profile-container">
+            <!-- Profile Header -->
+            <StackLayout class="profile-header">
+                <AbsoluteLayout class="profile-photo-container">
+                    <Image src="{{ user.photoURL || '~/images/default-avatar.png' }}" 
+                           stretch="aspectFill"
+                           class="profile-photo" />
+                    <Label text="&#xf030;" 
+                           class="fas edit-photo-icon" 
+                           tap="{{ onChangePhoto }}"
+                           visibility="{{ isEditing ? 'visible' : 'collapsed' }}" />
+                </AbsoluteLayout>
+                
+                <TextField text="{{ user.displayName }}" 
+                         class="profile-name"
+                         isEnabled="{{ isEditing }}" />
+                <Label text="{{ user.email }}" 
+                       class="profile-email" />
+            </StackLayout>
+
+            <!-- Preferences Section -->
+            <StackLayout class="section-container">
+                <Label text="Preferences" class="section-title" />
+                
+                <GridLayout rows="auto, auto, auto" columns="*, auto" class="preferences-grid">
+                    <Label text="Push Notifications" row="0" col="0" class="preference-label" />
+                    <Switch checked="{{ user.preferences.notifications }}"
+                            tap="{{ onToggleNotifications }}"
+                            row="0" col="1" 
+                            class="preference-switch" />
+
+                    <Label text="Newsletter" row="1" col="0" class="preference-label" />
+                    <Switch checked="{{ user.preferences.newsletter }}"
+                            tap="{{ onToggleNewsletter }}"
+                            row="1" col="1"
+                            class="preference-switch" />
+
+                    <Label text="Dark Mode" row="2" col="0" class="preference-label" />
+                    <Switch checked="{{ user.preferences.darkMode }}"
+                            tap="{{ onToggleDarkMode }}"
+                            row="2" col="1"
+                            class="preference-switch" />
+                </GridLayout>
+            </StackLayout>
+
+            <!-- Account Section -->
+            <StackLayout class="section-container">
+                <Label text="Account" class="section-title" />
+                
+                <Button text="Change Password" 
+                        tap="{{ onChangePassword }}"
+                        class="btn-secondary account-button" />
+                        
+                <Button text="Sign Out" 
+                        tap="{{ onSignOut }}"
+                        class="btn-secondary account-button" />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</Page>

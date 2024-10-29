@@ -1,0 +1,26 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="QR Code Generator" class="action-bar">
+        <NavigationButton tap="{{ onBack }}" />
+    </ActionBar>
+
+    <StackLayout class="p-4">
+        <TextField hint="Enter text for QR code" 
+                  text="{{ qrText }}" 
+                  class="input-field" 
+                  returnKeyType="done" />
+                  
+        <Image src="{{ qrImageSource }}" 
+               width="300" 
+               height="300" 
+               class="m-4" />
+               
+        <Button text="Generate QR Code" 
+                tap="{{ generateQRCode }}" 
+                class="btn-primary" />
+                
+        <Button text="Save QR Code" 
+                tap="{{ saveQRCode }}" 
+                class="btn-secondary m-t-2"
+                isEnabled="{{ !!qrImageSource }}" />
+    </StackLayout>
+</Page>

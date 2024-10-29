@@ -1,0 +1,44 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar title="All in One LYF" class="action-bar">
+        <ActionBar.actionItems>
+            <ActionItem tap="{{ onProfile }}" ios.position="right">
+                <ActionItem.actionView>
+                    <Image src="{{ userPhotoUrl || '~/images/default-avatar.png' }}" 
+                           class="profile-image"
+                           width="32" height="32" 
+                           borderRadius="16"
+                           margin="0 16"
+                           backgroundColor="#f0f0f0" />
+                </ActionItem.actionView>
+            </ActionItem>
+        </ActionBar.actionItems>
+    </ActionBar>
+    
+    <GridLayout rows="auto, *" columns="*">
+        <StackLayout row="0" class="search-container">
+            <SearchBar hint="Search services..." 
+                      text="{{ searchQuery }}" 
+                      submit="{{ onSearch }}" 
+                      clear="{{ onClearSearch }}"
+                      class="search-bar" />
+        </StackLayout>
+                  
+        <ListView row="1" 
+                 items="{{ categories }}" 
+                 itemTap="{{ onCategorySelect }}" 
+                 separatorColor="transparent" 
+                 height="100%">
+            <ListView.itemTemplate>
+                <GridLayout class="list-item" rows="auto" columns="*">
+                    <StackLayout class="category-content">
+                        <Label text="{{ name }}" class="category-title" />
+                        <Label text="{{ description }}" class="category-description" textWrap="true" />
+                        <GridLayout columns="auto, *" class="service-count-container">
+                            <Label col="0" text="{{ services.length + ' Services Available' }}" class="service-count" />
+                        </GridLayout>
+                    </StackLayout>
+                </GridLayout>
+            </ListView.itemTemplate>
+        </ListView>
+    </GridLayout>
+</Page>

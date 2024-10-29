@@ -1,0 +1,67 @@
+<Page xmlns="http://schemas.nativescript.org/tns.xsd" navigatingTo="onNavigatingTo">
+    <ActionBar class="action-bar">
+        <NavigationButton tap="{{ onBack }}" />
+        <Label text="Book {{ service.name }}" />
+    </ActionBar>
+
+    <ScrollView>
+        <StackLayout class="booking-container p-4">
+            <!-- Service Info -->
+            <StackLayout class="service-info p-4 m-2" style="background-color: #FFF5E6; border-radius: 12;">
+                <Label text="{{ service.name }}" class="service-title" 
+                       style="font-size: 24; font-weight: bold; color: #FF6B00;" />
+                <Label text="{{ '$' + service.price }}" class="price"
+                       style="font-size: 32; font-weight: bold; color: #333;" />
+                <Label text="{{ service.description }}" textWrap="true" 
+                       style="color: #666; margin-top: 8;" />
+            </StackLayout>
+
+            <!-- Booking Steps -->
+            <GridLayout rows="auto" columns="*, *, *" class="steps-indicator m-y-4">
+                <StackLayout col="0" class="{{ currentStep >= 1 ? 'step-active' : 'step' }}">
+                    <Label text="1" class="step-number" />
+                    <Label text="Details" class="step-text" />
+                </StackLayout>
+                <StackLayout col="1" class="{{ currentStep >= 2 ? 'step-active' : 'step' }}">
+                    <Label text="2" class="step-number" />
+                    <Label text="Schedule" class="step-text" />
+                </StackLayout>
+                <StackLayout col="2" class="{{ currentStep >= 3 ? 'step-active' : 'step' }}">
+                    <Label text="3" class="step-number" />
+                    <Label text="Contact" class="step-text" />
+                </StackLayout>
+            </GridLayout>
+
+            <!-- Step 1: Project Details -->
+            <StackLayout visibility="{{ currentStep === 1 ? 'visible' : 'collapsed' }}" class="step-content">
+                <Label text="Project Details" class="section-title" style="font-size: 20; font-weight: bold; margin: 16 0;" />
+                <TextView hint="Describe your project needs..." text="{{ description }}"
+                         class="input-field" height="150" style="background-color: #F8F8F8; border-radius: 12; padding: 16;" />
+            </StackLayout>
+
+            <!-- Step 2: Schedule -->
+            <StackLayout visibility="{{ currentStep === 2 ? 'visible' : 'collapsed' }}" class="step-content">
+                <Label text="Select Date & Time" class="section-title" style="font-size: 20; font-weight: bold; margin: 16 0;" />
+                <DateTimePicker date="{{ preferredDate }}" class="date-picker" />
+                <TimePicker time="{{ preferredTime }}" class="time-picker" />
+            </StackLayout>
+
+            <!-- Step 3: Contact Info -->
+            <StackLayout visibility="{{ currentStep === 3 ? 'visible' : 'collapsed' }}" class="step-content">
+                <Label text="Contact Information" class="section-title" style="font-size: 20; font-weight: bold; margin: 16 0;" />
+                <TextField hint="Your Name" text="{{ name }}" class="input-field" />
+                <TextField hint="Phone Number" text="{{ phone }}" keyboardType="phone" class="input-field" />
+                <TextField hint="Email" text="{{ email }}" keyboardType="email" class="input-field" />
+                <TextField hint="Service Address" text="{{ address }}" class="input-field" />
+            </StackLayout>
+
+            <!-- Navigation Buttons -->
+            <GridLayout rows="auto" columns="auto, *" class="navigation-buttons" margin="16 0">
+                <Button col="0" text="Back" class="btn-secondary" tap="{{ onPreviousStep }}"
+                        visibility="{{ currentStep > 1 ? 'visible' : 'collapsed' }}" />
+                <Button col="1" text="{{ currentStep < 3 ? 'Next' : 'Book Now' }}" 
+                        class="btn-primary" tap="{{ currentStep < 3 ? 'onNextStep' : 'onSubmit' }}" />
+            </GridLayout>
+        </StackLayout>
+    </ScrollView>
+</Page>
